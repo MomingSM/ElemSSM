@@ -11,6 +11,7 @@ public class MD5Util {
     //加点作料盐，用于混交md5
     private static final String slat = "&%java6***&&%%$$#@";
 
+    // test
     /**
      * 生成md5
      *
