@@ -10,7 +10,7 @@
        http://www.springframework.org/schema/mvc
        https://www.springframework.org/schema/mvc/spring-mvc.xsd">
     <!--    1 组件的自动扫描-->
-    <context:component-scan base-package="vip.epss">
+    <context:component-scan base-package="org.dennis">
         <context:include-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Service"/>
         <context:exclude-filter type="annotation" expression="org.springframework.stereotype.Repository"/>
@@ -33,7 +33,7 @@
             <!--            添加排除的选项(静态资源和登录页)-->
             <mvc:exclude-mapping path="/user/login"/>
             <mvc:exclude-mapping path="/static/**"/>
-            <bean class="vip.epss.interceptor.LoginInterceptor"/>
+            <bean class="org.dennis.interceptor.LoginInterceptor"/>
         </mvc:interceptor>
     </mvc:interceptors>
 
@@ -63,7 +63,7 @@
           class="org.springframework.format.support.FormattingConversionServiceFactoryBean">
         <property name="converters">
             <list>
-                <bean id="stringToDateConvert" class="vip.epss.utils.StringToDateConvert"></bean>
+                <bean id="stringToDateConvert" class="org.dennis.utils.StringToDateConvert"></bean>
             </list>
         </property>
     </bean>
@@ -92,5 +92,5 @@
                            validator="localValidatorFactoryBean"></mvc:annotation-driven>
 
     <!--    6 全局异常处理器-->
-    <bean class="vip.epss.exception.CustomExceptionResolver" id="customExceptionResolver"></bean>
+    <bean class="org.dennis.exception.CustomExceptionResolver" id="customExceptionResolver"></bean>
 </beans>

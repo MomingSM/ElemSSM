@@ -20,7 +20,7 @@
 
     <!--    3 定义别名映射,一般都是封装为实体类对象-->
     <typeAliases>
-        <package name="vip.epss.domain"/>
+        <package name="org.dennis.domain"/>
     </typeAliases>
 
     <!--    4 环境配置-->
@@ -55,8 +55,8 @@
     <!--    所以使用MyBatis时,一般不需要自己编写实现类-->
     <mappers>
         <!--        一个单独文件的映射-->
-        <!--        <mapper class="vip.epss.dao.UserMapper.xml" />-->
+        <!--        <mapper class="UserMapper.xml" />-->
         <!--        包内所有mapper文件的映射-->
-        <package name="vip.epss.dao"/>
+        <package name="org.dennis.dao"/>
     </mappers>
 </configuration>
