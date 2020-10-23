@@ -37,6 +37,7 @@
 <hr />
 <a href="${app}/user/list">用户管理</a>
 <a href="${app}/userrest/list">用户管理REST</a>
+<a href="${app}/goodstype/list">商品类别管理</a>
 <hr />
 <!-- 模态框 -->
 <div class="modal fade" id="addModal">
