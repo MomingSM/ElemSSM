@@ -5,7 +5,6 @@ import org.apache.ibatis.annotations.Param;
 import org.dennis.domain.User;
 import org.dennis.domain.UserExample;
 
-
 public interface UserMapper {
     long countByExample(UserExample example);
 

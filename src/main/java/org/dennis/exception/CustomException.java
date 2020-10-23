@@ -1,7 +1,7 @@
 package org.dennis.exception;
 
 /**
- * @创建人 epss[wangzhanf]
+ * @创建人 dennis[ccc]
  * @创建时间 2020/10/18 0018
  * @描述
  */

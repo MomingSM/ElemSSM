@@ -44,5 +44,9 @@
             <!--            忽略部分字段的生成-->
             <ignoreColumn column="up_time"></ignoreColumn>
         </table>
+        <table tableName="goods_type" domainObjectName="GoodsTypes">
+            <!--            忽略部分字段的生成-->
+            <ignoreColumn column="up_time"></ignoreColumn>
+        </table>
     </context>
 </generatorConfiguration>
