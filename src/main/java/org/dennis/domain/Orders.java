@@ -1,8 +1,11 @@
 package org.dennis.domain;
 
-import java.util.Date;
+import lombok.Data;
 
-public class Orders {
+import java.io.Serializable;
+import java.util.Date;
+@Data
+public class Orders implements Serializable {
     private Integer orderId;
 
     private String orderName;

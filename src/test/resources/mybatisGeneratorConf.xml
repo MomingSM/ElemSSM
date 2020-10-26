@@ -48,21 +48,21 @@
 <!--            &lt;!&ndash;            忽略部分字段的生成&ndash;&gt;-->
 <!--            <ignoreColumn column="up_time"></ignoreColumn>-->
 <!--        </table>-->
-        <table tableName="activities" domainObjectName="Activities">
-            <!--            忽略部分字段的生成-->
-            <ignoreColumn column="up_time"></ignoreColumn>
-        </table>
-        <table tableName="business" domainObjectName="Business">
-            <!--            忽略部分字段的生成-->
-            <ignoreColumn column="up_time"></ignoreColumn>
-        </table>
+<!--        <table tableName="activities" domainObjectName="Activities">-->
+<!--            &lt;!&ndash;            忽略部分字段的生成&ndash;&gt;-->
+<!--            <ignoreColumn column="up_time"></ignoreColumn>-->
+<!--        </table>-->
+<!--        <table tableName="business" domainObjectName="Business">-->
+<!--            &lt;!&ndash;            忽略部分字段的生成&ndash;&gt;-->
+<!--            <ignoreColumn column="up_time"></ignoreColumn>-->
+<!--        </table>-->
         <table tableName="goods_info" domainObjectName="Goodsinfo">
             <!--            忽略部分字段的生成-->
             <ignoreColumn column="up_time"></ignoreColumn>
         </table>
-        <table tableName="orders" domainObjectName="Orders">
-            <!--            忽略部分字段的生成-->
-            <ignoreColumn column="up_time"></ignoreColumn>
-        </table>
+<!--        <table tableName="orders" domainObjectName="Orders">-->
+<!--            &lt;!&ndash;            忽略部分字段的生成&ndash;&gt;-->
+<!--            <ignoreColumn column="up_time"></ignoreColumn>-->
+<!--        </table>-->
     </context>
 </generatorConfiguration>

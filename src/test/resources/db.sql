@@ -107,10 +107,30 @@ create table if not exists activities
     primary key (`act_id`)
 ) default character set 'utf8' auto_increment=1 comment '活动表基本信息表';
 commit ;
-# 插入数据
-insert into activities(act_name, act_des) VALUES ('新用户减免','饿了么新用户收单立减9元'),
-                                                ('特价商品','特价商品5元起'),
-                                                 ('满减送','订单满30减29');
+# # 插入数据
+# insert into activities(act_name, act_des) VALUES ('新用户减免','饿了么新用户收单立减9元'),
+#                                                  ('特价商品','特价商品5元起'),
+#                                                  ('满减送','订单满30减29');
+# 批量插入测试数据
+DELIMITER $$
+CREATE PROCEDURE activities_insert ()
+BEGIN
+    DECLARE
+        i INT DEFAULT 1;
+    WHILE
+            i < 10 DO
+            insert into activities (act_name, act_des) value
+                (concat('减免活动',i),'活动介绍') ;
+            SET i = i + 1;
+
+        END WHILE;
+    COMMIT;
+
+END $$
+DELIMITER ;
+CALL activities_insert ();
+
+commit;
 
 
 # 新建商家信息表
@@ -139,7 +159,28 @@ insert into business (bus_name, bus_pass, bus_avatar, bus_score, bus_send, bus_p
 values ('万家饺子馆','111','',5,'蜂鸟配送','18340862928','辽宁省大连市高新区',1),
        ('满记甜品','222','',3,'美团','13340862928','辽宁省大连市金州区',2);
 
+# 批量插入测试数据
+DROP PROCEDURE IF EXISTS business_insert;
 
+DELIMITER $$
+CREATE PROCEDURE business_insert ()
+BEGIN
+    DECLARE
+        i INT DEFAULT 1;
+    WHILE
+            i < 100 DO
+            insert into business (bus_name, bus_pass, bus_avatar, bus_score, bus_send, bus_phone, bus_addr, bus_act) value
+                (concat('李家小厨',i),'fe8fb64eb34764f9e0a58a32a819dcb2','/upload/bussiness.png',FlOOR(RAND() * 5 + 1),'15起送','138********','高新区火炬路',FlOOR(RAND() * 8 + 1)) ;
+            SET i = i + 1;
+
+        END WHILE;
+    COMMIT;
+
+END $$
+DELIMITER ;
+CALL business_insert ();
+
+commit;
 # 新建活动表和商家表中间表
 drop table if exists act_bus;
 create table if not exists act_bus
@@ -153,9 +194,30 @@ create table if not exists act_bus
 commit ;
 
 # 插入数据
-insert into act_bus(f_busid, f_actid) VALUES (1,1),
-                                             (2,2);
+# insert into act_bus(f_busid, f_actid) VALUES (1,1),
+#                                              (2,2);
+# 批量插入测试数据
+DROP PROCEDURE IF EXISTS act_bus_insert;
 
+DELIMITER $$
+CREATE PROCEDURE act_bus_insert ()
+BEGIN
+    DECLARE
+        i INT DEFAULT 1;
+    WHILE
+            i < 100 DO
+            insert into act_bus (f_busid, f_actid) value
+                (FlOOR(RAND() * 99 + 1),FlOOR(RAND() * 9 + 1)) ;
+            SET i = i + 1;
+
+        END WHILE;
+    COMMIT;
+
+END $$
+DELIMITER ;
+CALL act_bus_insert ();
+
+commit;
 # 商品类别表;
 drop table if exists goods_type;
 create table if not exists goods_type
@@ -168,10 +230,32 @@ create table if not exists goods_type
 ) default character set 'utf8' auto_increment=1 comment '商品类别表';
 commit ;
 
-# 插入数据;
-insert into goods_type(gtyp_name)values ('米饭'),
-                                        ('饺子'),
-                                        ('炒菜');
+# # 插入数据;
+# insert into goods_type(gtyp_name)values ('米饭'),
+#                                         ('饺子'),
+#                                         ('炒菜');
+# 批量插入测试数据
+DROP PROCEDURE IF EXISTS goods_type_insert;
+
+DELIMITER $$
+CREATE PROCEDURE goods_type_insert ()
+BEGIN
+    DECLARE
+        i INT DEFAULT 1;
+    WHILE
+            i < 10 DO
+            insert into goods_type (gtyp_name) value (CONCAT('美食',i)) ;
+            SET i = i + 1;
+
+        END WHILE;
+    COMMIT;
+
+END $$
+DELIMITER ;
+CALL goods_type_insert ();
+
+commit;
+
 # 商品信息表
 drop table if exists goods_info;
 create table if not exists goods_info
@@ -183,14 +267,37 @@ create table if not exists goods_info
     ginfo_price double(7,2) comment '商品价格',
     f_busid integer not null comment '商家id关联外键',
     f_gtype integer not null comment '类别id关联外键',
+    add_time timestamp   not null default current_timestamp comment '创建时间',
+    up_time  timestamp   not null default current_timestamp on update current_timestamp comment '修改时间',
     constraint `fk_goods_info_to_business_1` foreign key goods_info(`f_busid`) references business(`bus_id`),
     constraint `fk_goods_info_to_goods_type_2` foreign key goods_info(`f_gtype`) references goods_type(`gtyp_id`)
 ) default character set 'utf8' auto_increment=1 comment '商品信息表';
 commit ;
 # 插入数据;
 insert into goods_info(ginfo_name, ginfo_photo, ginfo_des, ginfo_price, f_busid, f_gtype) values ('牛肉汤','','西藏牦牛新鲜先杀',55.4,1,1),
-                                ('韩国炸鸡','','鲜嫩多汁,黄金酥脆',22.6,2,2);
+                                                                                                 ('韩国炸鸡','','鲜嫩多汁,黄金酥脆',22.6,2,2);
+# 批量插入测试数据
+DROP PROCEDURE IF EXISTS goods_info_insert;
 
+DELIMITER $$
+CREATE PROCEDURE goods_info_insert ()
+BEGIN
+    DECLARE
+        i INT DEFAULT 1;
+    WHILE
+            i < 200 DO
+            insert into goods_info (ginfo_name, ginfo_des, ginfo_price, f_busid, f_gtype) value
+                (CONCAT('商品',i),CONCAT('商品介绍',i),RAND() * 15 + 5,FlOOR(RAND() * 99 + 1),FlOOR(RAND() * 9 + 1)) ;
+            SET i = i + 1;
+
+        END WHILE;
+    COMMIT;
+
+END $$
+DELIMITER ;
+CALL goods_info_insert ();
+
+commit;
 # 订单表
 drop table if exists orders;
 create table if not exists orders
@@ -212,7 +319,29 @@ commit;
 
 # 插入数据
 insert into orders(order_name, order_cnt, order_paystatus, f_cid, f_busid) values ('韩国炸鸡',3,'已支付',1,1),
-                            ('牛肉汤',2,'待支付',2,2);
+                                                                                  ('牛肉汤',2,'待支付',2,2);
+# 批量插入测试数据
+DROP PROCEDURE IF EXISTS orders_insert;
+
+DELIMITER $$
+CREATE PROCEDURE orders_insert ()
+BEGIN
+    DECLARE
+        i INT DEFAULT 1;
+    WHILE
+            i < 200 DO
+            insert into orders (order_name, order_cnt, order_paystatus, f_cid, f_busid) value
+                (concat('美食',i),FlOOR(RAND() * 9 + 1),FlOOR(RAND() * 3 + 1),FlOOR(RAND() * 99 + 1),FlOOR(RAND() * 99 + 1)) ;
+            SET i = i + 1;
+
+        END WHILE;
+    COMMIT;
+
+END $$
+DELIMITER ;
+CALL orders_insert ();
+
+commit;
 # 订单和商家的中间表
 drop table if exists ordbus;
 create table if not exists ordbus
@@ -229,3 +358,25 @@ commit;
 # 插入数据
 insert into ordbus(fk_oid, fk_bus) values (1,1),
                                           (2,2);
+# 批量插入测试数据
+DROP PROCEDURE IF EXISTS ordbus_insert;
+
+DELIMITER $$
+CREATE PROCEDURE ordbus_insert ()
+BEGIN
+    DECLARE
+        i INT DEFAULT 1;
+    WHILE
+            i < 100 DO
+            insert into ordbus (fk_oid, fk_bus) value
+                (FlOOR(RAND() * 200 + 1),FlOOR(RAND() * 99 + 1)) ;
+            SET i = i + 1;
+
+        END WHILE;
+    COMMIT;
+
+END $$
+DELIMITER ;
+CALL ordbus_insert ();
+
+commit;

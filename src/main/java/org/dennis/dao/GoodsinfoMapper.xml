@@ -7,6 +7,7 @@
     <result column="ginfo_photo" jdbcType="VARCHAR" property="ginfoPhoto" />
     <result column="ginfo_des" jdbcType="VARCHAR" property="ginfoDes" />
     <result column="ginfo_price" jdbcType="DOUBLE" property="ginfoPrice" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
     <result column="f_busid" jdbcType="INTEGER" property="fBusid" />
     <result column="f_gtype" jdbcType="INTEGER" property="fGtype" />
   </resultMap>
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List">
-    ginfo_id, ginfo_name, ginfo_photo, ginfo_des, ginfo_price, f_busid, f_gtype
+    ginfo_id, ginfo_name, ginfo_photo, ginfo_des, ginfo_price, add_time, f_busid, f_gtype
   </sql>
   <select id="selectByExample" parameterType="org.dennis.domain.GoodsinfoExample" resultMap="BaseResultMap">
     select
@@ -103,11 +104,11 @@
   </delete>
   <insert id="insert" parameterType="org.dennis.domain.Goodsinfo">
     insert into goods_info (ginfo_id, ginfo_name, ginfo_photo, 
-      ginfo_des, ginfo_price, f_busid, 
-      f_gtype)
+      ginfo_des, ginfo_price, add_time, 
+      f_busid, f_gtype)
     values (#{ginfoId,jdbcType=INTEGER}, #{ginfoName,jdbcType=VARCHAR}, #{ginfoPhoto,jdbcType=VARCHAR}, 
-      #{ginfoDes,jdbcType=VARCHAR}, #{ginfoPrice,jdbcType=DOUBLE}, #{fBusid,jdbcType=INTEGER}, 
-      #{fGtype,jdbcType=INTEGER})
+      #{ginfoDes,jdbcType=VARCHAR}, #{ginfoPrice,jdbcType=DOUBLE}, #{addTime,jdbcType=TIMESTAMP}, 
+      #{fBusid,jdbcType=INTEGER}, #{fGtype,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="org.dennis.domain.Goodsinfo">
     insert into goods_info
@@ -126,6 +127,9 @@
       </if>
       <if test="ginfoPrice != null">
         ginfo_price,
+      </if>
+      <if test="addTime != null">
+        add_time,
       </if>
       <if test="fBusid != null">
         f_busid,
@@ -149,6 +153,9 @@
       </if>
       <if test="ginfoPrice != null">
         #{ginfoPrice,jdbcType=DOUBLE},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
       </if>
       <if test="fBusid != null">
         #{fBusid,jdbcType=INTEGER},
@@ -182,6 +189,9 @@
       <if test="record.ginfoPrice != null">
         ginfo_price = #{record.ginfoPrice,jdbcType=DOUBLE},
       </if>
+      <if test="record.addTime != null">
+        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="record.fBusid != null">
         f_busid = #{record.fBusid,jdbcType=INTEGER},
       </if>
@@ -200,6 +210,7 @@
       ginfo_photo = #{record.ginfoPhoto,jdbcType=VARCHAR},
       ginfo_des = #{record.ginfoDes,jdbcType=VARCHAR},
       ginfo_price = #{record.ginfoPrice,jdbcType=DOUBLE},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP},
       f_busid = #{record.fBusid,jdbcType=INTEGER},
       f_gtype = #{record.fGtype,jdbcType=INTEGER}
     <if test="_parameter != null">
@@ -221,6 +232,9 @@
       <if test="ginfoPrice != null">
         ginfo_price = #{ginfoPrice,jdbcType=DOUBLE},
       </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
       <if test="fBusid != null">
         f_busid = #{fBusid,jdbcType=INTEGER},
       </if>
@@ -236,8 +250,47 @@
       ginfo_photo = #{ginfoPhoto,jdbcType=VARCHAR},
       ginfo_des = #{ginfoDes,jdbcType=VARCHAR},
       ginfo_price = #{ginfoPrice,jdbcType=DOUBLE},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
       f_busid = #{fBusid,jdbcType=INTEGER},
       f_gtype = #{fGtype,jdbcType=INTEGER}
     where ginfo_id = #{ginfoId,jdbcType=INTEGER}
   </update>
+  <resultMap id="BaseResultMapWithObject" type="org.dennis.domain.Goodsinfo">
+    <id column="ginfoId" jdbcType="INTEGER" property="ginfoId" />
+    <result column="ginfoName" jdbcType="VARCHAR" property="ginfoName" />
+    <result column="ginfoDes" jdbcType="VARCHAR" property="ginfoDes" />
+    <result column="ginfoPrice" jdbcType="DOUBLE" property="ginfoPrice" />
+    <result column="ginfoPhoto" jdbcType="VARCHAR" property="ginfoPhoto" />
+    <result column="fBusid" jdbcType="INTEGER" property="fBusid" />
+    <result column="fGtype" jdbcType="INTEGER" property="fGtype" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <association property="business" javaType="org.dennis.domain.Business" select="org.dennis.dao.BusinessMapper.selectByPrimaryKey" column="fBusid">
+      <id property="busId" column="busId"></id>
+      <result property="busName" column="busName"></result>
+    </association>
+    <association property="goodsTypes" javaType="org.dennis.domain.GoodsTypes" select="org.dennis.dao.GoodsTypesMapper.selectByPrimaryKey" column="fGtype">
+      <id property="gtypId" column="gtypId"></id>
+      <result property="tname" column="tname"></result>
+    </association>
+  </resultMap>
+  <select id="selectByExampleWithObject" parameterType="org.dennis.domain.GoodsinfoExample" resultMap="BaseResultMapWithObject">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from goods
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKeyWithObject" parameterType="java.lang.Integer" resultMap="BaseResultMapWithObject">
+    select
+    <include refid="Base_Column_List" />
+    from goods
+    where gid = #{gid,jdbcType=INTEGER}
+  </select>
 </mapper>

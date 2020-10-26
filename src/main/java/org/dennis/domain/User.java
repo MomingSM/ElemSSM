@@ -14,6 +14,22 @@ public class User implements Serializable {
 
     private Date addTime;
 
+    public User(Integer uid, String username, String password, Date addTime) {
+        this.uid = uid;
+        this.username = username;
+        this.password = password;
+        this.addTime = addTime;
+    }
+
+    public User(Integer uid, String username, Date addTime) {
+        this.uid = uid;
+        this.username = username;
+        this.addTime = addTime;
+    }
+
+    public User() {
+    }
+
     public Integer getUid() {
         return uid;
     }

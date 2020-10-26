@@ -2,8 +2,10 @@ package org.dennis.controller;
 
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import org.dennis.domain.*;
-import org.dennis.service.GoodsTypeService;
+import org.dennis.domain.GoodsCondition;
+import org.dennis.domain.Goodsinfo;
+import org.dennis.domain.GoodsinfoExample;
+import org.dennis.service.GoodsInfoService;
 import org.dennis.utils.MessageAndData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -15,20 +17,16 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * @创建人 dennis[ccc]
- * @创建时间 2020/10/19 0019
- * @描述
- */
 @Controller
-@RequestMapping("/goodstype")
-public class GoodsTypeRestController {
+@RequestMapping("/goodsrest")
+public class GoodsInfoRestController {
+
     @Autowired
-    private GoodsTypeService goodsTypeService;
+    private GoodsInfoService goodsInfoService;
 
     @RequestMapping(value = "/index")
     public String index(){
-        return "forward:/WEB-INF/types.jsp";
+        return "forward:/WEB-INF/goods.jsp";
     }
 
     @ResponseBody
@@ -39,13 +37,13 @@ public class GoodsTypeRestController {
             @RequestParam(value = "pageSize",defaultValue = "10")Integer pageSize
 
     ) throws ParseException {
-        GoodsTypesExample goodsTypesExample = new GoodsTypesExample();
-        GoodsTypesExample.Criteria criteria = goodsTypesExample.createCriteria();
+        GoodsinfoExample example = new GoodsinfoExample();
+        GoodsinfoExample.Criteria criteria = example.createCriteria();
 
         String name="";
         if(condition.getGinfoName()!=null && !condition.getGinfoName().equals("")){
             name = "%"+condition.getGinfoName()+"%";
-            criteria.andGtypNameLike(name);
+            criteria.andGinfoNameLike(name);
         }
 
 
@@ -68,25 +66,24 @@ public class GoodsTypeRestController {
 
         //初始化,约束
         PageHelper.startPage(pageNum, pageSize);
-        List<GoodsTypes> lists = goodsTypeService.selectByExample(goodsTypesExample);
+        List<Goodsinfo> lists = goodsInfoService.selectByExample(example);
         //使用pageHelper的方式封装数据,默认的导航列表长度为8
         PageInfo pageInfo = new PageInfo(lists, 8);
         return MessageAndData.success("").add("pageInfo",pageInfo);
     }
 
-
     @ResponseBody
     @RequestMapping(value = "/opt/{id}",method = RequestMethod.GET)
     public MessageAndData optSelectPrimaryKey(@PathVariable("id")Integer id){
-        GoodsTypes goodsTypes = goodsTypeService.selectByPrimaryKey(id);
-        return MessageAndData.success("查询成功").add("obj",goodsTypes);
+        Goodsinfo obj = goodsInfoService.selectByPrimaryKey(id);
+        return MessageAndData.success("查询成功").add("obj",obj);
     }
 
 
     @ResponseBody
     @RequestMapping(value = "/opt",method = RequestMethod.POST)
-    public MessageAndData optInsert(GoodsTypes obj){
-        Integer i = goodsTypeService.insertSelective(obj);
+    public MessageAndData optInsert(Goodsinfo obj){
+        Integer i = goodsInfoService.insertSelective(obj);
         if(i>0){
             return MessageAndData.success("成功添加"+i+"条记录");
         }else{
@@ -106,13 +103,13 @@ public class GoodsTypeRestController {
             iIds.add(Integer.parseInt(sId));
         }
         if(iIds.size() > 1) {//删除多条记录
-            //创建一个对象
-            GoodsTypesExample goodsTypesExample = new GoodsTypesExample();
-            goodsTypesExample.createCriteria().andGtypIdIn(iIds);
+            //创建一个UserExample对象
+            GoodsinfoExample example = new GoodsinfoExample();
+            example.createCriteria().andGinfoIdIn(iIds);
             //执行批量删除
-            i = goodsTypeService.deleteByExample(goodsTypesExample);
+            i = goodsInfoService.deleteByExample(example);
         }else{//删除一条记录
-            i = goodsTypeService.deleteByPrimaryKey(iIds.get(0));
+            i = goodsInfoService.deleteByPrimaryKey(iIds.get(0));
         }
         return MessageAndData.success("删除成功"+i+"条记录").add("num", i);
     }
@@ -121,13 +118,14 @@ public class GoodsTypeRestController {
     //    如果使用put方法,记得要在web.xml中添加相应过滤器,对象不能封装
     @ResponseBody
     @RequestMapping(value = "/opt",method = RequestMethod.PUT)
-    public MessageAndData optUpdate(GoodsTypes obj){
-        int i = goodsTypeService.updateByPrimaryKeySelective(obj);
+    public MessageAndData optUpdate(Goodsinfo obj){
+        int i = goodsInfoService.updateByPrimaryKeySelective(obj);
         if(i>0){
             return MessageAndData.success("成功修改"+i+"条记录");
         }else{
             return MessageAndData.error("修改失败");
         }
     }
+
 
 }
