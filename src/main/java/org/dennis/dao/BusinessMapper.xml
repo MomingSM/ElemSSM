@@ -1,0 +1,323 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="org.dennis.dao.BusinessMapper">
+  <resultMap id="BaseResultMap" type="org.dennis.domain.Business">
+    <id column="bus_id" jdbcType="INTEGER" property="busId" />
+    <result column="bus_name" jdbcType="VARCHAR" property="busName" />
+    <result column="bus_pass" jdbcType="VARCHAR" property="busPass" />
+    <result column="bus_avatar" jdbcType="VARCHAR" property="busAvatar" />
+    <result column="bus_score" jdbcType="INTEGER" property="busScore" />
+    <result column="bus_send" jdbcType="VARCHAR" property="busSend" />
+    <result column="bus_phone" jdbcType="VARCHAR" property="busPhone" />
+    <result column="bus_addr" jdbcType="VARCHAR" property="busAddr" />
+    <result column="bus_reco" jdbcType="INTEGER" property="busReco" />
+    <result column="bus_status" jdbcType="BIT" property="busStatus" />
+    <result column="add_time" jdbcType="TIMESTAMP" property="addTime" />
+    <result column="bus_act" jdbcType="INTEGER" property="busAct" />
+  </resultMap>
+  <sql id="Example_Where_Clause">
+    <where>
+      <foreach collection="oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause">
+    <where>
+      <foreach collection="example.oredCriteria" item="criteria" separator="or">
+        <if test="criteria.valid">
+          <trim prefix="(" prefixOverrides="and" suffix=")">
+            <foreach collection="criteria.criteria" item="criterion">
+              <choose>
+                <when test="criterion.noValue">
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue">
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue">
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue">
+                  and ${criterion.condition}
+                  <foreach close=")" collection="criterion.value" item="listItem" open="(" separator=",">
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List">
+    bus_id, bus_name, bus_pass, bus_avatar, bus_score, bus_send, bus_phone, bus_addr, 
+    bus_reco, bus_status, add_time, bus_act
+  </sql>
+  <select id="selectByExample" parameterType="org.dennis.domain.BusinessExample" resultMap="BaseResultMap">
+    select
+    <if test="distinct">
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from business
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null">
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" parameterType="java.lang.Integer" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from business
+    where bus_id = #{busId,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer">
+    delete from business
+    where bus_id = #{busId,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="org.dennis.domain.BusinessExample">
+    delete from business
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="org.dennis.domain.Business">
+    insert into business (bus_id, bus_name, bus_pass, 
+      bus_avatar, bus_score, bus_send, 
+      bus_phone, bus_addr, bus_reco, 
+      bus_status, add_time, bus_act
+      )
+    values (#{busId,jdbcType=INTEGER}, #{busName,jdbcType=VARCHAR}, #{busPass,jdbcType=VARCHAR}, 
+      #{busAvatar,jdbcType=VARCHAR}, #{busScore,jdbcType=INTEGER}, #{busSend,jdbcType=VARCHAR}, 
+      #{busPhone,jdbcType=VARCHAR}, #{busAddr,jdbcType=VARCHAR}, #{busReco,jdbcType=INTEGER}, 
+      #{busStatus,jdbcType=BIT}, #{addTime,jdbcType=TIMESTAMP}, #{busAct,jdbcType=INTEGER}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="org.dennis.domain.Business">
+    insert into business
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="busId != null">
+        bus_id,
+      </if>
+      <if test="busName != null">
+        bus_name,
+      </if>
+      <if test="busPass != null">
+        bus_pass,
+      </if>
+      <if test="busAvatar != null">
+        bus_avatar,
+      </if>
+      <if test="busScore != null">
+        bus_score,
+      </if>
+      <if test="busSend != null">
+        bus_send,
+      </if>
+      <if test="busPhone != null">
+        bus_phone,
+      </if>
+      <if test="busAddr != null">
+        bus_addr,
+      </if>
+      <if test="busReco != null">
+        bus_reco,
+      </if>
+      <if test="busStatus != null">
+        bus_status,
+      </if>
+      <if test="addTime != null">
+        add_time,
+      </if>
+      <if test="busAct != null">
+        bus_act,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="busId != null">
+        #{busId,jdbcType=INTEGER},
+      </if>
+      <if test="busName != null">
+        #{busName,jdbcType=VARCHAR},
+      </if>
+      <if test="busPass != null">
+        #{busPass,jdbcType=VARCHAR},
+      </if>
+      <if test="busAvatar != null">
+        #{busAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="busScore != null">
+        #{busScore,jdbcType=INTEGER},
+      </if>
+      <if test="busSend != null">
+        #{busSend,jdbcType=VARCHAR},
+      </if>
+      <if test="busPhone != null">
+        #{busPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="busAddr != null">
+        #{busAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="busReco != null">
+        #{busReco,jdbcType=INTEGER},
+      </if>
+      <if test="busStatus != null">
+        #{busStatus,jdbcType=BIT},
+      </if>
+      <if test="addTime != null">
+        #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="busAct != null">
+        #{busAct,jdbcType=INTEGER},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="org.dennis.domain.BusinessExample" resultType="java.lang.Long">
+    select count(*) from business
+    <if test="_parameter != null">
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map">
+    update business
+    <set>
+      <if test="record.busId != null">
+        bus_id = #{record.busId,jdbcType=INTEGER},
+      </if>
+      <if test="record.busName != null">
+        bus_name = #{record.busName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busPass != null">
+        bus_pass = #{record.busPass,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busAvatar != null">
+        bus_avatar = #{record.busAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busScore != null">
+        bus_score = #{record.busScore,jdbcType=INTEGER},
+      </if>
+      <if test="record.busSend != null">
+        bus_send = #{record.busSend,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busPhone != null">
+        bus_phone = #{record.busPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busAddr != null">
+        bus_addr = #{record.busAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="record.busReco != null">
+        bus_reco = #{record.busReco,jdbcType=INTEGER},
+      </if>
+      <if test="record.busStatus != null">
+        bus_status = #{record.busStatus,jdbcType=BIT},
+      </if>
+      <if test="record.addTime != null">
+        add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.busAct != null">
+        bus_act = #{record.busAct,jdbcType=INTEGER},
+      </if>
+    </set>
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map">
+    update business
+    set bus_id = #{record.busId,jdbcType=INTEGER},
+      bus_name = #{record.busName,jdbcType=VARCHAR},
+      bus_pass = #{record.busPass,jdbcType=VARCHAR},
+      bus_avatar = #{record.busAvatar,jdbcType=VARCHAR},
+      bus_score = #{record.busScore,jdbcType=INTEGER},
+      bus_send = #{record.busSend,jdbcType=VARCHAR},
+      bus_phone = #{record.busPhone,jdbcType=VARCHAR},
+      bus_addr = #{record.busAddr,jdbcType=VARCHAR},
+      bus_reco = #{record.busReco,jdbcType=INTEGER},
+      bus_status = #{record.busStatus,jdbcType=BIT},
+      add_time = #{record.addTime,jdbcType=TIMESTAMP},
+      bus_act = #{record.busAct,jdbcType=INTEGER}
+    <if test="_parameter != null">
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="org.dennis.domain.Business">
+    update business
+    <set>
+      <if test="busName != null">
+        bus_name = #{busName,jdbcType=VARCHAR},
+      </if>
+      <if test="busPass != null">
+        bus_pass = #{busPass,jdbcType=VARCHAR},
+      </if>
+      <if test="busAvatar != null">
+        bus_avatar = #{busAvatar,jdbcType=VARCHAR},
+      </if>
+      <if test="busScore != null">
+        bus_score = #{busScore,jdbcType=INTEGER},
+      </if>
+      <if test="busSend != null">
+        bus_send = #{busSend,jdbcType=VARCHAR},
+      </if>
+      <if test="busPhone != null">
+        bus_phone = #{busPhone,jdbcType=VARCHAR},
+      </if>
+      <if test="busAddr != null">
+        bus_addr = #{busAddr,jdbcType=VARCHAR},
+      </if>
+      <if test="busReco != null">
+        bus_reco = #{busReco,jdbcType=INTEGER},
+      </if>
+      <if test="busStatus != null">
+        bus_status = #{busStatus,jdbcType=BIT},
+      </if>
+      <if test="addTime != null">
+        add_time = #{addTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="busAct != null">
+        bus_act = #{busAct,jdbcType=INTEGER},
+      </if>
+    </set>
+    where bus_id = #{busId,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="org.dennis.domain.Business">
+    update business
+    set bus_name = #{busName,jdbcType=VARCHAR},
+      bus_pass = #{busPass,jdbcType=VARCHAR},
+      bus_avatar = #{busAvatar,jdbcType=VARCHAR},
+      bus_score = #{busScore,jdbcType=INTEGER},
+      bus_send = #{busSend,jdbcType=VARCHAR},
+      bus_phone = #{busPhone,jdbcType=VARCHAR},
+      bus_addr = #{busAddr,jdbcType=VARCHAR},
+      bus_reco = #{busReco,jdbcType=INTEGER},
+      bus_status = #{busStatus,jdbcType=BIT},
+      add_time = #{addTime,jdbcType=TIMESTAMP},
+      bus_act = #{busAct,jdbcType=INTEGER}
+    where bus_id = #{busId,jdbcType=INTEGER}
+  </update>
+</mapper>
