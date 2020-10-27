@@ -34,7 +34,7 @@
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">添加新用户</h4>
+                <h4 class="modal-title">添加新类别</h4>
                 <button type="button" class="close" data-dismiss="modal">&times;</button>
             </div>
 
@@ -44,15 +44,10 @@
                     <%--input type="hidden" name="_method" value="POST" /--%>
                     <div class="form-group">
                         <label for="nameAddInput">username:</label>
-                        <input type="text" class="form-control" id="nameAddInput" name="goodsname"
-                               placeholder="请输入商品名称"/>
+                        <input type="text" class="form-control" id="nameAddInput" name="gtypName"
+                               placeholder="请输入商品类别"/>
                     </div>
                     <div id="usernameTips"></div>
-                    <div class="form-group">
-                        <label for="passwordAddInput">password:</label>
-                        <input type="password" class="form-control" id="passwordAddInput" name="password"
-                               placeholder="请输入密码">
-                    </div>
 
                     <div class="form-group">
                         <button id="addObjBtn" type="button" class="btn btn-block btn-primary">添加</button>
@@ -67,6 +62,7 @@
     </div>
 </div>
 
+<%--   修改对应模态框--%>
 <div class="modal fade" id="updateModal">
     <div class="modal-dialog">
         <div class="modal-content">
@@ -77,23 +73,23 @@
 
             <!-- 模态框主体 -->
             <div class="modal-body">
-                <form method="post" action="${app}/goodstype/opt" class="form-horizontal" role="form">
+                <form method="put" action="${app}/goodstype/opt" class="form-horizontal" role="form">
                     <input type="hidden" name="_method" value="PUT"/>
                     <div class="form-group">
-                        <label for="uidUpdateInput">uid:</label>
-                        <input type="text" readonly="readonly" class="form-control" id="uidUpdateInput" name="uid"
-                               placeholder="uid"/>
+                        <label for="typeUpdateInput">type:</label>
+                        <input type="text" readonly="readonly" class="form-control" id="typeUpdateInput" name="gtypId"
+                               placeholder="gtypId"/>
                     </div>
                     <div class="form-group">
-                        <label for="usernameUpdateInput">姓名username:</label>
-                        <input type="text" readonly="readonly" class="form-control" id="usernameUpdateInput"
-                               name="username"
-                               placeholder="请输入用户姓名"/>
+                        <label for="typNameUpdateInput">类别名称(gtypeName):</label>
+                        <input type="text" class="form-control" id="typNameUpdateInput"
+                               name="gtypeName"
+                               placeholder="请输入类别名称"/>
                     </div>
                     <div class="form-group">
-                        <label for="passwordUpdateInput">密码password:</label>
-                        <input type="password" class="form-control" id="passwordUpdateInput" name="password"
-                               placeholder="请输入新密码">
+                        <label for="addUpdateInput">添加时间(addTime):</label>
+                        <input type="date" class="form-control" id="addUpdateInput"
+                               name="addTime"/>
                     </div>
 
                     <div class="form-group">
@@ -203,9 +199,9 @@
             type: "GET",
             success: function (result) {
                 //回填数据
-                $("#uidUpdateInput").val(result.dataZone.user.uid);
-                $("#usernameUpdateInput").val(result.dataZone.user.username);
-                $("#addTimeUpdateInput").val(new Date(result.dataZone.user.addTime).Format("yyyy-MM-dd"));
+                $("#typeUpdateInput").val(result.dataZone.obj.gtypId);
+                $("#typNameUpdateInput").val(result.dataZone.obj.gtypName);
+                $("#addUpdateInput").val(new Date(result.dataZone.obj.addTime).Format("yyyy-MM-dd"));
 
             },
             error: function () {
@@ -353,6 +349,7 @@
     function parseDataAndShow(result) {
         $("#objTable tbody").empty();
         // 获取数据集合
+        console.log(result);
         let lists = result.dataZone.pageInfo.list;
         $.each(lists, function (index, item) {
             //构建行
@@ -364,9 +361,9 @@
             var td2 = $('<td></td>').text(item.gtypName);
             var addTimeTd = $('<td></td>').text(new Date(item.addTime).Format("yyyy-MM-dd HH:mm:ss"));
             var upBtnTd = $('<td></td>').html('<a class="upBtn btn btn-info btn-sm" href="${app}/goodstype/opt/'
-                + item.gtypID + '">修改</a>');
+                + item.gtypId + '">修改</a>');
             var delBtnTd = $('<td></td>').html('<a class="delBtn btn btn-danger btn-sm" href="${app}/goodstype/opt/'
-                + item.gtypID + '">删除</a>');
+                + item.gtypId + '">删除</a>');
             //将单元格追加到行中
             uTr.append(checkboxTh).append(countTh)
                 .append(td1).append(td2)

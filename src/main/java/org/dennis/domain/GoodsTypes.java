@@ -1,10 +1,12 @@
 package org.dennis.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
 @Data
+@JsonIgnoreProperties(value = {"handler"})
 public class GoodsTypes implements Serializable {
     private Integer gtypId;
 

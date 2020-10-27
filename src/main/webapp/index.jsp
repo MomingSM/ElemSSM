@@ -21,8 +21,10 @@
     <title>前台首页</title>
 </head>
 <body>
-站点前台首页
-
+<H3>
+    站点前台首页 奥利给给
+</H3>
+<br/>
 <a href="${app}/user/login">后台登录</a>
 </body>
 </html>

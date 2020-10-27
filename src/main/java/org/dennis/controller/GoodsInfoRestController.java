@@ -117,7 +117,7 @@ public class GoodsInfoRestController {
 
     //    如果使用put方法,记得要在web.xml中添加相应过滤器,对象不能封装
     @ResponseBody
-    @RequestMapping(value = "/opt",method = RequestMethod.PUT)
+    @RequestMapping(value = "/optu",method = RequestMethod.POST)
     public MessageAndData optUpdate(Goodsinfo obj){
         int i = goodsInfoService.updateByPrimaryKeySelective(obj);
         if(i>0){

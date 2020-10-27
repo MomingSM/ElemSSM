@@ -15,27 +15,27 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
     private GoodsTypesMapper goodsTypesMapper;
     @Override
     public long countByExample(GoodsTypesExample example) {
-        return 0;
+        return goodsTypesMapper.countByExample(example);
     }
 
     @Override
     public int deleteByExample(GoodsTypesExample example) {
-        return 0;
+        return goodsTypesMapper.deleteByExample(example);
     }
 
     @Override
     public int deleteByPrimaryKey(Integer gtypId) {
-        return 0;
+        return goodsTypesMapper.deleteByPrimaryKey(gtypId);
     }
 
     @Override
     public int insert(GoodsTypes record) {
-        return 0;
+        return goodsTypesMapper.insert(record);
     }
 
     @Override
     public int insertSelective(GoodsTypes record) {
-        return 0;
+        return goodsTypesMapper.insertSelective(record);
     }
 
     @Override
@@ -45,26 +45,26 @@ public class GoodsTypeServiceImpl implements GoodsTypeService {
 
     @Override
     public GoodsTypes selectByPrimaryKey(Integer gtypId) {
-        return null;
+        return goodsTypesMapper.selectByPrimaryKey(gtypId);
     }
 
     @Override
     public int updateByExampleSelective(GoodsTypes record, GoodsTypesExample example) {
-        return 0;
+        return goodsTypesMapper.updateByExampleSelective(record, example);
     }
 
     @Override
     public int updateByExample(GoodsTypes record, GoodsTypesExample example) {
-        return 0;
+        return goodsTypesMapper.updateByExample(record, example);
     }
 
     @Override
     public int updateByPrimaryKeySelective(GoodsTypes record) {
-        return 0;
+        return goodsTypesMapper.updateByPrimaryKeySelective(record);
     }
 
     @Override
     public int updateByPrimaryKey(GoodsTypes record) {
-        return 0;
+        return goodsTypesMapper.updateByPrimaryKey(record);
     }
 }
